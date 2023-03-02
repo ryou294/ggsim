@@ -1,12 +1,38 @@
 import streamlit as st
 import random
 
+def tenjou():
+    st.text("★★★★★ セノ")
+    st.session_state.count = 0
+
+
+def karitenjou():
+    c = random.randint(1,2)
+    if c == 1:
+        st.text("★★★★★ セノ")
+        st.session_state.count = 0
+    else:
+        a = random.randint(1,6)
+        if a == 1:
+            st.text("★★★★★ ジン")
+        elif a == 2:
+            st.text("★★★★★ ディルック")
+        elif a == 3:
+            st.text("★★★★★ モナ")
+        elif a == 4:
+            st.text("★★★★★ 刻晴")
+        elif a == 5:
+            st.text("★★★★★ 七七")
+        elif a == 6:
+            st.text("★★★★★ ティナリ")
+
 def hosyou():
     n = random.randint(1,1000)
     if n <= 6:
         m = random.randint(1,2)
         if m == 1:
             st.text("★★★★★ セノ")
+            st.session_state.count = 0
         else:
             p = random.randint(1,6)
             if p == 1:
@@ -40,6 +66,7 @@ def gacha():
         m = random.randint(1,2)
         if m == 1:
             st.text("★★★★★ セノ")
+            st.session_state.count = 0
         else:
             p = random.randint(1,6)
             if p == 1:
@@ -69,6 +96,9 @@ def gacha():
     else:
         st.text("★★★")
 
+if 'count' not in st.session_state:
+    st.session_state.count = 0
+
 st.title("原神祈願シミュ")
 st.caption("原神風のアプリです。")
 
@@ -86,8 +116,15 @@ with st.form(key="profile_form"):
         gacha()
 
     if tyvat_btn ==True:
+        st.session_state.count += 10
+        st.text(str(st.session_state.count)+"連目")
         for i in range(10):
             if i != 9:
                 gacha()
             else:
-                hosyou()
+                if st.session_state.count == 80:
+                    karitenjou()
+                elif st.session_state.count == 160:
+                    tenjou()
+                else:
+                    hosyou()
